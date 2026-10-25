@@ -15,9 +15,6 @@ This project is divided into four main phases, progressing from basic layer anal
 * **Part 3: Target Difference Algorithm (TDA)**
   This is the core of the research. We apply the Target Difference Algorithm to search for valid collision paths. To resolve the complex algebraic constraints generated in this phase, we heavily rely on the SAT solver **CryptoMiniSat**.
 
-* **Part 4: Target Internal Difference Algorithm (TIDA)**
-  The final section contains programs and implementations related to the Target Internal Difference Algorithm, which serves as a comparative and alternative approach to finding collisions.
-
 ## Tools & Dependencies
 * **C++**: Core logic and matrix operations.
 * **CryptoMiniSat**: Used for solving CNF formulas to verify algebraic constraints.
