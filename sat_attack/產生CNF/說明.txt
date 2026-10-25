@@ -1,0 +1,31 @@
+# SAT CNF Generator for Keccak Non-Linear Layer ($\chi$)
+
+This program generates the Conjunctive Normal Form (CNF) constraints for the Keccak non-linear layer ($\chi$ step), preparing the algebraic system for the SAT solver.
+
+## Key Features & Logic
+
+* **Full 320 S-boxes Implementation**
+  The script successfully models the complete 1600-bit Keccak state, rigorously evaluating and encoding the differential constraints for all 320 5-bit S-boxes.
+
+* **Why Rely on a SAT Solver?**
+  Unlike Keccak's $\theta$, $\rho$, and $\pi$ steps—which are linear and can be directly inverted using simple linear algebra and matrix operations—the $\chi$ step is highly non-linear. To compute its inverse and search for valid collision paths, we must convert the differential distribution properties into boolean satisfiability problems (CNF) and utilize a SAT solver (such as CryptoMiniSat) to find the exact solutions.
+
+* **Strict 1D State Memory Alignment (Ordering Issue)**
+  Crucially, this program addresses the memory mapping discrepancy. In the flattened 1D 1600-bit array, the 5 bits corresponding to a single S-box are **not contiguous**. They are distributed along the $x$-axis with a stride of 64 bits (calculated by `320*y + 64*x + z`). The SAT variables in our clauses correctly reflect this non-continuous Keccak state layout to ensure perfect alignment with the linear layer matrices.
+
+---
+
+# 非線性層 CNF 約束生成器 
+
+本程式負責生成 Keccak 非線性層（$\chi$ 步驟）的合取範式 (CNF) 約束條件，為後續投入 SAT solver 的代數系統做準備。
+
+## 核心重點與邏輯
+
+* **完整實作 320 個 S-box**
+  本程式完整涵蓋了 1600-bit 的 Keccak 狀態，對全域總共 320 個 5-bit S-box 進行了完整的差分約束與編碼。
+
+* **為何必須依賴 SAT Solver？**
+  Keccak 的 $\theta$、$\rho$、$\pi$ 等步驟屬於線性變換，我們可以直接利用線性代數（反矩陣）來求得反函數。然而，$\chi$ 步驟是非線性的，無法單純用矩陣反推。因此，我們必須將其差分特性轉化為布林邏輯約束 (CNF)，並依賴 SAT solver（如 CryptoMiniSat）來強行解出代數衝突與合法的碰撞路徑。
+
+* **修正 1D 陣列的 S-box 變數對應順序**
+  本程式特別處理了 Keccak 3D 狀態展平為 1D 陣列時的「索引錯位問題」。在 1600-bit 的陣列中，同一個 S-box 的 5 個 bit 並不是連續的，而是沿著 $x$ 軸每隔 64 個 bit 抓取一個值（對應公式：`320*y + 64*x + z`）。本程式產生的 SAT 變數已嚴格遵照此實際跨距排列，確保能與線性層的分析矩陣完美吻合。
